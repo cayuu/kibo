@@ -41,6 +41,20 @@ export default class Kibo extends React.Component {
     this.props.target.value = val.substr(0, val.length - 1)
   }
 
+  drawSpecial (source) {
+    return source.map(key => {
+      return (
+        <div
+          key={key}
+          className='kibo-key kibo-special'
+          onMouseDown={e => { e.preventDefault(); this.props.target.focus() }}
+          onClick={() => key.fn ? this[key.fn](key) : this.onPress(key)}>
+          {key.label}
+        </div>
+      )
+    })
+  }
+
   onPress (key) {
     this.props.target.value += key
 
@@ -67,15 +81,8 @@ export default class Kibo extends React.Component {
           return (
             <div key={row} className='kibo-row'>
 
-              {layout.special[row].pre && layout.special[row].pre.map(key => {
-                return (
-                  <div
-                    key={key}
-                    className='kibo-key kibo-special'>
-                    {key.label}
-                  </div>
-                )
-              })}
+              {layout.special[row].pre &&
+                this.drawSpecial(layout.special[row].pre)}
 
               {str.split('').map(key => {
                 return (
@@ -93,17 +100,7 @@ export default class Kibo extends React.Component {
                 )
               })}
 
-              {layout.special[row].post && layout.special[row].post.map(key => {
-                return (
-                  <div
-                    key={key}
-                    className='kibo-key kibo-special'
-                    onMouseDown={e => { e.preventDefault(); this.props.target.focus() }}
-                    onClick={() => key.fn ? this[key.fn](key) : this.onPress(key)}>
-                    {key.label}
-                  </div>
-                )
-              })}
+              {layout.special[row].post && this.drawSpecial(layout.special[row].post)}
             </div>
           )
         })}
