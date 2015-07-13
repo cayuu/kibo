@@ -43,6 +43,9 @@ export default class Kibo extends React.Component {
 
   onPress (key) {
     this.props.target.value += key
+
+    // De-shift after a keypress
+    if (this.state.isShifted) this.shift()
   }
 
   caps () {
