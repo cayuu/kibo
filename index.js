@@ -32,13 +32,15 @@ export default class Kibo extends React.Component {
 
     this.state = {
       isCapsed: false,
-      isShifted: false
+      isShifted: false,
+      target: this.props.children ? this.props.children : this.props.target,
+      value: this.props.text || ''
     }
   }
 
   backspace () {
-    let val = this.props.target.value
-    this.props.target.value = val.substr(0, val.length - 1)
+    let val = this.state.value
+    this.setState({value: val.substr(0, val.length - 1)})
   }
 
   drawSpecial (source) {
@@ -47,8 +49,11 @@ export default class Kibo extends React.Component {
         <div
           key={key}
           className='kibo-key kibo-special'
-          onMouseDown={e => { e.preventDefault(); this.props.target.focus() }}
-          onClick={() => key.fn ? this[key.fn](key) : this.onPress(key)}>
+          onMouseDown={e => {
+            e.preventDefault()
+            React.findDOMNode(this.refs.input).focus()
+          }}
+          onClick={() => key.fn ? this[key.fn](key) : null}>
           {key.label}
         </div>
       )
@@ -56,7 +61,7 @@ export default class Kibo extends React.Component {
   }
 
   onPress (key) {
-    this.props.target.value += key
+    this.setState({value: this.state.value += key})
 
     // De-shift after a keypress
     if (this.state.isShifted) this.shift()
@@ -76,41 +81,51 @@ export default class Kibo extends React.Component {
       : layout.normal
 
     return (
-      <div className='kibo'>
-        {src.map((str, row) => {
-          return (
-            <div key={row} className='kibo-row'>
+      <span className='kibo-wrapper'>
 
-              {layout.special[row].pre &&
-                this.drawSpecial(layout.special[row].pre)}
+        {React.cloneElement(this.state.target, {
+            onChange: () => {},
+            ref: 'input',
+            value: this.state.value
+          })}
 
-              {str.split('').map(key => {
-                return (
-                  <div
-                    className='kibo-key'
-                    dataKey={key}
-                    key={key}
-                    onMouseDown={e => { e.preventDefault(); e.stopPropagation(); this.props.target.focus() }}
-                    onClick={e => {
-                      this.onPress(key)
-                      console.log('pressed', key)
-                    }}>
-                    {key}
-                  </div>
-                )
-              })}
+        <div className='kibo'>
+          {src.map((str, row) => {
+            return (
+              <div
+                key={row}
+                className='kibo-row'
+                onMouseDown={e => { e.preventDefault(); React.findDOMNode(this.refs.input).focus() }}>
 
-              {layout.special[row].post && this.drawSpecial(layout.special[row].post)}
-            </div>
-          )
-        })}
+                {layout.special[row].pre &&
+                  this.drawSpecial(layout.special[row].pre)}
 
-      </div>
+                {str.split('').map(key => {
+                  return (
+                    <div
+                      className={'kibo-key' + (key === ' ' ? ' kibo-space' : '')}
+                      dataKey={key}
+                      key={key}
+                      onClick={() => this.onPress(key)} >
+                      {key}
+                    </div>
+                  )
+                })}
+
+                {layout.special[row].post && this.drawSpecial(layout.special[row].post)}
+              </div>
+            )
+          })}
+
+        </div>
+      </span>
     )
   }
 
 }
 
 Kibo.propTypes = {
-  target: React.PropTypes.any.isRequired
+  children: React.PropTypes.any,
+  target: React.PropTypes.any,
+  text: React.PropTypes.string
 }
