@@ -2,4 +2,53 @@
 .kibo {
   background: #333;
   border: 1px solid #ddd;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 680px;
+}
+
+.kibo .kibo-row {
+  display: flex;
+}
+
+.kibo .kibo-key {
+  background: #666;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color: #ccc;
+  cursor: pointer;
+  flex: 0 0 2.5rem;
+  font-size: 1em;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  margin: 2px 3px;
+  text-align: center;
+}
+
+.kibo .kibo-key.kibo-special {
+  background-color: #606060;
+  flex: 1 0 auto;
+}
+
+.kibo .kibo-key:hover {
+  background-color: #777;
+  font-size: 1.5em;
+}
+
+.kibo .kibo-key:active {
+  background-color: #555;
+}
+
+.kibo .kibo-key.kibo-special:hover {
+  font-size: initial;
+}
+
+.kibo .kibo-key.kibo-len-2 {
+  flex: 0 0 80px;
 }
