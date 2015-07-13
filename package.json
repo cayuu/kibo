@@ -1,6 +1,6 @@
 {
   "name": "kibo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Virtual keyboard",
   "main": "index.js",
   "scripts": {
