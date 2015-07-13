@@ -4,6 +4,7 @@
   border: 1px solid #ddd;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
   padding: 10px;
+  position: absolute;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -11,6 +12,10 @@
   -ms-user-select: none;
   user-select: none;
   width: 680px;
+}
+
+.kibo-wrapper {
+  position: relative;
 }
 
 .kibo .kibo-row {
@@ -49,6 +54,8 @@
   font-size: initial;
 }
 
-.kibo .kibo-key.kibo-len-2 {
-  flex: 0 0 80px;
+.kibo .kibo-key.kibo-space {
+  flex: 0 0 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
