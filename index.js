@@ -34,7 +34,8 @@ export default class Kibo extends React.Component {
       isCapsed: false,
       isShifted: false,
       target: this.props.children ? this.props.children : this.props.target,
-      value: this.props.text || ''
+      value: this.props.text || '',
+      visible: this.props.visible || false
     }
   }
 
@@ -80,16 +81,22 @@ export default class Kibo extends React.Component {
       ? layout.shift
       : layout.normal
 
+    const styles = {
+      display: this.state.visible ? 'block' : 'none'
+    }
+
     return (
       <span className='kibo-wrapper'>
 
         {React.cloneElement(this.state.target, {
             onChange: () => {},
+            onFocus: () => this.setState({visible: true}),
+            onBlur: () => this.setState({visible: false}),
             ref: 'input',
             value: this.state.value
           })}
 
-        <div className='kibo'>
+        <div className='kibo' style={styles}>
           {src.map((str, row) => {
             return (
               <div
@@ -127,5 +134,6 @@ export default class Kibo extends React.Component {
 Kibo.propTypes = {
   children: React.PropTypes.any,
   target: React.PropTypes.any,
-  text: React.PropTypes.string
+  text: React.PropTypes.string,
+  visible: React.PropTypes.bool
 }
