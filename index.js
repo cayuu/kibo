@@ -84,6 +84,7 @@ export default class Kibo extends React.Component {
     const styles = {
       display: this.state.visible ? 'block' : 'none'
     }
+    if (this.props.alignRight) styles.right = 0
 
     return (
       <span className='kibo-wrapper'>
@@ -132,6 +133,7 @@ export default class Kibo extends React.Component {
 }
 
 Kibo.propTypes = {
+  alignRight: React.PropTypes.bool,
   children: React.PropTypes.any,
   target: React.PropTypes.any,
   text: React.PropTypes.string,
