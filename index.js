@@ -19,7 +19,7 @@ const layout = {
   special: [
     {post: [{label: 'Delete', fn: 'backspace'}]},
     {pre: [{label: 'Tab'}]},
-    {pre: [{label: 'Caps Lock'}], post: [{label: 'Return'}]},
+    {pre: [{label: 'Caps Lock', fn: 'caps'}], post: [{label: 'Return'}]},
     {pre: [{label: 'Shift', fn: 'shift'}], post: [{label: 'Shift', fn: 'shift'}]},
     {mid: [{label: 'Space'}]}
   ]
@@ -31,6 +31,7 @@ export default class Kibo extends React.Component {
     super(props)
 
     this.state = {
+      isCapsed: false,
       isShifted: false
     }
   }
@@ -44,12 +45,18 @@ export default class Kibo extends React.Component {
     this.props.target.value += key
   }
 
+  caps () {
+    this.setState({isCapsed: !this.state.isCapsed})
+  }
+
   shift () {
     this.setState({isShifted: !this.state.isShifted})
   }
 
   render () {
-    const src = this.state.isShifted ? layout.shift : layout.normal
+    const src = this.state.isShifted || this.state.isCapsed
+      ? layout.shift
+      : layout.normal
 
     return (
       <div className='kibo'>
